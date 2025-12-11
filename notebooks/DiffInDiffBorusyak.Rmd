@@ -216,6 +216,10 @@ for (i in seq_along(outcome_vars)) {
 # Combine all data
 plot_data <- dplyr::bind_rows(event_study_data)
 
+# Filter to exclude month 7 and remove NA outcomes
+plot_data <- plot_data[plot_data$time >= -6 & plot_data$time <= 6, ]
+plot_data <- plot_data[!is.na(plot_data$outcome_label), ]
+
 # Enforce facet order to match outcome_vars
 plot_data$outcome_label <- factor(plot_data$outcome_label, levels = outcome_names)
 
@@ -249,7 +253,7 @@ event_study_plot <- ggplot(plot_data, aes(x = time, y = estimate)) +
     theme(
         plot.caption = element_text(hjust = 0.5, size = 10, margin = margin(t = 3))
     ) +
-    facet_wrap(~ outcome_label, scales = "free_y", nrow = 1, ncol = 5)
+    facet_wrap(~ outcome_label, scales = "free_y", nrow = 1)
 
 print(event_study_plot)
 
