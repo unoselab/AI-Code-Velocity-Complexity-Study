@@ -294,9 +294,14 @@ build_setting_variant <- function(data, setting_label) {
     } else if (setting_label == "Low Confidence") {
         dt <- dt[dt$high_confidence == FALSE | is.na(dt$high_confidence), ]
     } else if (setting_label == "Cursor and Others") {
-        dt <- dt[dt$other_agents == TRUE | is.na(dt$other_agents), ]
+        # Repository-level: keep repos with at least one other_agents == TRUE
+        repos_with_others <- unique(dt$repo_name_str[dt$other_agents == TRUE & !is.na(dt$other_agents)])
+        dt <- filter_with_matched_controls(dt, dt$repo_name_str %in% repos_with_others)
     } else if (setting_label == "Only Cursor") {
-        dt <- dt[dt$other_agents == FALSE | is.na(dt$other_agents), ]
+        # Repository-level: keep repos with all other_agents == FALSE (no TRUE values)
+        repos_with_others <- unique(dt$repo_name_str[dt$other_agents == TRUE & !is.na(dt$other_agents)])
+        repos_only_cursor <- setdiff(unique(dt$repo_name_str[dt$treated == 1]), repos_with_others)
+        dt <- filter_with_matched_controls(dt, dt$repo_name_str %in% repos_only_cursor)
     } else if (setting_label == "JavaScript/TypeScript") {
         dt <- filter_with_matched_controls(dt, dt$lang_group == "JavaScript/TypeScript")
     } else if (setting_label == "Python") {
