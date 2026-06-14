@@ -84,3 +84,454 @@ Table 3의 마지막 두 모델에서 main effect는 다음입니다.
 가장 안전한 표현은:
 
 > There appears to be an inconsistency between the reported coefficients in Table 3 and the percentage interpretation in the text. Using the coefficients in Table 3, the corresponding percentage changes are approximately 51.2% and 44.5% decreases under the usual (100(e^\beta-1)) conversion. If “100% increase” is interpreted literally as doubling, the effects would be approximately 39.2% and 33.5% decreases.
+
+
+---
+---
+---
+
+좋습니다. 이 설명의 핵심은:
+
+> Table 3에 보이는 (-0.718)을 그대로 percentage로 바꾸면 **64.5%가 안 나온다**.
+> 그래서 아마 저자들은 Table 3의 raw coefficient가 아니라, **dynamic model의 long-run effect**를 사용한 것이다.
+
+하나씩 아주 쉽게 보겠습니다.
+
+---
+
+# 1. Table 3에 보이는 값
+
+Table 3의 마지막 두 모델은 다음입니다.
+
+| Path                           | Table 3 Main Effect |
+| ------------------------------ | ------------------: |
+| $C_{it} \rightarrow L_{i,t+1}$ |            $-0.718$ |
+| $W_{it} \rightarrow L_{i,t+1}$ |            $-0.588$ |
+
+여기서:
+
+* $C$ = Code Complexity
+* $W$ = Static Analysis Warnings
+* $L$ = Lines Added
+
+즉 Table 3은:
+
+> complexity와 warnings가 다음 달 lines added를 줄인다
+
+는 방향을 보여줍니다. 
+
+---
+
+# 2. 그런데 (-0.718)을 바로 변환하면 64.5%가 안 나옴
+
+보통 log-transformed outcome의 coefficient는 이렇게 percentage로 바꿉니다.
+
+$$
+100(e^b - 1)%
+$$
+
+감소율로 보면:
+
+$$
+1 - e^b
+$$
+
+입니다.
+
+그래서 (-0.718)을 넣으면:
+
+$$
+1 - e^{-0.718}
+$$
+
+$$
+= 1 - 0.488
+$$
+
+$$
+= 0.512
+$$
+
+즉:
+
+$$
+51.2%
+$$
+
+입니다.
+
+그런데 논문 본문은 **64.5% decrease**라고 말합니다. 
+
+그래서 질문이 생깁니다.
+
+> 왜 Table 3의 (-0.718)에서 64.5%가 바로 안 나오지?
+
+맞습니다. 바로 안 나옵니다.
+
+---
+
+# 3. 핵심 이유: Equation 6에는 지난달 $Y$가 들어감
+
+Equation 6에는 이 항이 있습니다.
+
+$$
+\hat{\rho}Y_{i,t-1}
+$$
+
+이게 매우 중요합니다.
+
+뜻은:
+
+> 이번 달 outcome은 지난달 outcome의 영향을 받는다.
+
+예를 들어 lines added를 설명한다면:
+
+> 이번 달 lines added는 지난달 lines added의 영향을 받는다.
+
+즉, effect가 한 번만 생기고 끝나는 게 아니라, 다음 달, 그 다음 달로 일부 이어질 수 있습니다.
+
+---
+
+# 4. Short-run effect vs Long-run effect
+
+Table 3에 보이는 (-0.718)은 보통 **short-run coefficient**처럼 볼 수 있습니다.
+
+즉:
+
+> complexity가 lines added에 미치는 직접적인 한 번의 효과
+
+입니다.
+
+하지만 dynamic model에서는 효과가 이렇게 이어집니다.
+
+```text
+Complexity increases
+        ↓
+Next-month Lines Added decreases
+        ↓
+Because Lines Added has persistence, that decrease carries forward
+        ↓
+Later Lines Added also affected
+```
+
+그래서 전체 효과는 short-run coefficient보다 커질 수 있습니다.
+
+이를 **long-run effect** 또는 **steady-state effect**라고 생각하면 됩니다.
+
+---
+
+# 5. Long-run effect 계산 아이디어
+
+dynamic model에서 long-run effect는 보통 이렇게 계산합니다.
+
+$$
+\text{Long-run effect}
+======================
+
+\frac{\gamma}{1-\rho}
+$$
+
+여기서:
+
+* $\gamma$ = Table 3의 main effect
+* $\rho$ = lagged dependent variable, 즉 $Y_{i,t-1}$의 coefficient
+
+문제는 Table 3에 $\rho$가 안 나와 있습니다.
+
+Table 3 caption도 일부 covariate estimates는 생략했다고 말합니다. 
+
+그래서 우리는 정확한 $\rho$를 표에서 직접 볼 수 없습니다.
+
+---
+
+# 6. 64.5%가 나오려면 어떤 coefficient가 필요할까?
+
+64.5% decrease는 남는 비율이:
+
+$$
+1 - 0.645 = 0.355
+$$
+
+입니다.
+
+이걸 log coefficient로 바꾸면:
+
+$$
+\log(0.355) \approx -1.036
+$$
+
+즉, 64.5% 감소가 나오려면 coefficient가 대략:
+
+$$
+-1.036
+$$
+
+이어야 합니다.
+
+그런데 Table 3에는:
+
+$$
+-0.718
+$$
+
+이 있습니다.
+
+따라서 설명은:
+
+> 저자들이 (-0.718) raw coefficient가 아니라, long-run coefficient 약 (-1.036)을 사용했을 가능성이 높다.
+
+입니다.
+
+---
+
+# 7. 어떻게 (-0.718)에서 (-1.036)으로 가나?
+
+long-run formula를 사용합니다.
+
+$$
+\frac{-0.718}{1-\rho} = -1.036
+$$
+
+이걸 풀면:
+
+$$
+1-\rho = \frac{0.718}{1.036}
+$$
+
+$$
+1-\rho \approx 0.693
+$$
+
+$$
+\rho \approx 0.307
+$$
+
+즉 lagged lines added coefficient $\rho$가 약 0.31이면:
+
+$$
+\frac{-0.718}{1-0.31}
+\approx
+-1.036
+$$
+
+그리고:
+
+$$
+1 - e^{-1.036}
+==============
+
+64.5%
+$$
+
+가 됩니다.
+
+---
+
+# 8. Warnings도 같은 방식
+
+Warnings path는 Table 3 coefficient가:
+
+$$
+-0.588
+$$
+
+논문 본문은 50.3% decrease라고 말합니다.
+
+50.3% decrease는 남는 비율이:
+
+$$
+1 - 0.503 = 0.497
+$$
+
+그래서 필요한 log coefficient는:
+
+$$
+\log(0.497) \approx -0.70
+$$
+
+즉 long-run coefficient가 약:
+
+$$
+-0.70
+$$
+
+이어야 합니다.
+
+그러면:
+
+$$
+1 - e^{-0.70}
+\approx
+50.3%
+$$
+
+입니다.
+
+이걸 long-run formula로 보면:
+
+$$
+\frac{-0.588}{1-\rho} = -0.70
+$$
+
+$$
+1-\rho = \frac{0.588}{0.70}
+$$
+
+$$
+\rho \approx 0.16
+$$
+
+즉 warnings model에서는 $\rho$가 약 0.16이면 논문 숫자와 맞습니다.
+
+---
+
+# 9. 더 쉽게 비유하면
+
+Table 3의 (-0.718)은 이런 느낌입니다.
+
+> complexity가 올라가면 바로 다음 달 lines added가 줄어드는 1차 충격
+
+그런데 Equation 6은 지난달 outcome도 이번 달 outcome에 영향을 준다고 봅니다.
+
+그래서 1차 충격이 끝나지 않고 일부 남습니다.
+
+```text
+1차 감소: -0.718
+       ↓
+다음 기간에 일부 남음
+       ↓
+그 다음에도 일부 남음
+       ↓
+총합은 -1.036 정도가 됨
+```
+
+그래서 본문 percentage는 raw coefficient가 아니라 누적된 long-run effect를 사용한 것으로 보입니다.
+
+---
+
+# 10. Cross-check: 3x, 5x도 이 설명과 맞음
+
+논문은 또 이렇게 말합니다.
+
+> Cursor velocity gain would be cancelled out by about 5x increase in warnings or 3x increase in complexity. 
+
+Cursor coefficient는 Table 3에서 약:
+
+$$
+1.044
+$$
+
+입니다.
+
+이 값은:
+
+$$
+e^{1.044} - 1 \approx 1.84
+$$
+
+즉 baseline보다 184% 증가, 또는 1.84x increase입니다.
+
+이제 이 gain을 complexity long-run effect가 상쇄하려면:
+
+$$
+\text{needed increase}
+\approx
+e^{1.046 / 1.036}
+$$
+
+$$
+\approx 2.7x
+$$
+
+즉 약 3x입니다.
+
+Warnings는:
+
+$$
+e^{1.046 / 0.70}
+$$
+
+$$
+\approx 4.5x
+$$
+
+즉 약 5x입니다.
+
+그래서 64.5%, 50.3%, 3x, 5x는 모두 **long-run effect를 썼다고 보면 서로 잘 맞습니다.**
+
+---
+
+# 11. 중요한 caveat
+
+하지만 여기서 중요한 주의점이 있습니다.
+
+논문 본문은 이 계산 과정을 명확히 보여주지 않습니다.
+
+특히 Table 3에는 $\rho$가 없습니다.
+
+그래서 독자가 Table 3만 보고:
+
+$$
+-0.718 \rightarrow 64.5%
+$$
+
+를 바로 재현할 수 없습니다.
+
+더 정확히 말하면:
+
+> 64.5%와 50.3%는 Table 3의 visible main effect coefficient를 단순 변환한 값이 아니라, 생략된 lagged dependent variable coefficient $\rho$까지 고려한 long-run effect로 보아야 자연스럽게 설명됩니다.
+
+---
+
+# 12. 또 하나의 조심할 점: “100% increase”
+
+여기도 약간 애매합니다.
+
+일반적으로 “100% increase”는 두 배 증가, 즉:
+
+$$
+X \rightarrow 2X
+$$
+
+를 의미합니다.
+
+하지만 위 계산에서 64.5%와 50.3%는 사실상 **one-log-unit increase**에 가까운 해석입니다.
+
+one-log-unit increase는:
+
+$$
+\Delta \log X = 1
+$$
+
+이고, 이는 원래 값이:
+
+$$
+e^1 \approx 2.718
+$$
+
+배가 되는 것입니다.
+
+즉 엄밀하게는 100% increase, 즉 2배 증가와 완전히 같지는 않습니다.
+
+그래서 이 부분도 논문에서 더 명확히 설명했으면 좋았을 부분입니다.
+
+---
+
+# 최종 요약
+
+아주 쉽게 정리하면:
+
+1. Table 3에 보이는 (-0.718)을 바로 변환하면 **51.2%**이지, **64.5%**가 아닙니다.
+2. 64.5%가 나오려면 coefficient가 약 (-1.036)이어야 합니다.
+3. (-1.036)은 Equation 6의 lagged outcome term, 즉 $\rho Y_{i,t-1}$을 고려한 **long-run effect**로 설명할 수 있습니다.
+4. 공식은 대략:
+
+$$
+\text{Long-run effect}
+======================
+
+\frac{\gamma}{1-\rho}
+$$
+
+5. Table 3에는 $\rho$가 생략되어 있어서, 독자가 직접 계산하기는 어렵습니다.
+6. 따라서 이 문단은 방향성은 이해 가능하지만, percentage conversion은 더 명시적으로 설명했어야 합니다.
