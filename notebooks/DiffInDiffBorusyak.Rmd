@@ -188,40 +188,41 @@ for (var in outcome_vars) {
 
 
 ```{r reproduce_check}
-# log(x+1) 계수 -> % 변화로 환산
+# Convert log(x+1) coefficient to percent change
 pct <- function(b) (exp(b) - 1) * 100
 
-# 안전하게 한 term의 estimate/CI 꺼내는 헬퍼
+# Helper to safely extract estimate/CI for one term
 grab <- function(df, trm) {
   i <- which(df$term == as.character(trm))
   if (length(i) == 0) return(c(est = NA, lo = NA, hi = NA))
   c(est = df$estimate[i], lo = df$conf.low[i], hi = df$conf.high[i])
 }
 
-# 논문에 적힌 값 (md 9-task1 기준). 비교용 참고열.
+# Values reported in the paper, based on md 9-task1. Reference columns for comparison.
 paper <- data.frame(
   outcome    = outcome_vars,
-  paper_avg  = c(NA,    NA,    30.3,  NA,   41.6),   # 전체 평균 %
-  paper_m1   = c(55.4,  281.3, NA,    NA,   NA),     # 도입 첫 달 %
-  paper_m2   = c(14.5,  48.4,  NA,    NA,   NA)      # 둘째 달 %
+  paper_avg  = c(NA,    NA,    30.3,  NA,   41.6),   # Overall average %
+  paper_m1   = c(55.4,  281.3, NA,    NA,   NA),     # First month after adoption %
+  paper_m2   = c(14.5,  48.4,  NA,    NA,   NA)      # Second month after adoption %
 )
 
-# (A) 전체 평균 효과 = static "treat" 계수
+# (A) Overall average effect = static "treat" coefficient
 compare <- data.frame(
   Outcome   = outcome_names,
   my_avg_pct = round(sapply(outcome_vars, function(v)
                   pct(grab(static_results[[v]], "treat")["est"])), 1),
   my_m0_pct  = round(sapply(outcome_vars, function(v)
-                  pct(grab(dynamic_results[[v]], 0)["est"])), 1),   # 도입한 달 (h=0)
+                  pct(grab(dynamic_results[[v]], 0)["est"])), 1),   # Adoption month (h=0)
   my_m1_pct  = round(sapply(outcome_vars, function(v)
-                  pct(grab(dynamic_results[[v]], 1)["est"])), 1),   # 그 다음 달 (h=1)
+                  pct(grab(dynamic_results[[v]], 1)["est"])), 1),   # Following month (h=1)
   paper_avg = paper$paper_avg,
   paper_m1  = paper$paper_m1,
   paper_m2  = paper$paper_m2
 )
 knitr::kable(compare, caption = "내 재현값(%) vs 논문값(%) — exp(b)-1로 환산")
 
-# (B) Pre-trend 점검: 도입 전(-6~-2)은 0 근처여야 함 (CI가 0 포함하면 OK)
+# (B) Pre-trend check: pre-adoption periods (-6 to -2) should be close to 0
+# It is OK if the CI includes 0.
 cat("\n=== Pre-trend (도입 전, 0이어야 정상) ===\n")
 for (v in outcome_vars) {
   cat("\n", v, ":\n", sep = "")
