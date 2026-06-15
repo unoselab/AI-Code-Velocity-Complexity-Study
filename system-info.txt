@@ -1,0 +1,151 @@
+===== OS / Ubuntu =====
+Distributor ID:	Ubuntu
+Description:	Ubuntu 22.04.5 LTS
+Release:	22.04
+Codename:	jammy
+Linux OISSE-IST173C01 6.8.0-94-generic #96~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Fri Jan 16 13:19:05 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+
+===== CPU =====
+Architecture:                         x86_64
+CPU(s):                               128
+On-line CPU(s) list:                  0-127
+Model name:                           AMD Ryzen Threadripper PRO 7985WX 64-Cores
+Thread(s) per core:                   2
+Core(s) per socket:                   64
+Socket(s):                            1
+NUMA node0 CPU(s):                    0-127
+
+===== RAM =====
+               total        used        free      shared  buff/cache   available
+Mem:           251Gi       7.4Gi        81Gi        38Mi       162Gi       241Gi
+Swap:          2.0Gi          0B       2.0Gi
+
+===== Disk =====
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/nvme0n1p2  1.8T  405G  1.4T  24% /
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+loop0         7:0    0     4K  1 loop /snap/bare/5
+loop1         7:1    0  48.4M  1 loop /snap/snapd/26382
+loop2         7:2    0  66.8M  1 loop /snap/core24/1587
+loop3         7:3    0   580K  1 loop /snap/snapd-desktop-integration/361
+loop4         7:4    0 248.4M  1 loop /snap/firefox/8462
+loop5         7:5    0  66.8M  1 loop /snap/core24/1643
+loop6         7:6    0  63.8M  1 loop /snap/core20/2769
+loop7         7:7    0 346.3M  1 loop /snap/gnome-3-38-2004/119
+loop8         7:8    0 349.7M  1 loop /snap/gnome-3-38-2004/143
+loop9         7:9    0 516.2M  1 loop /snap/gnome-42-2204/226
+loop10        7:10   0 531.4M  1 loop /snap/gnome-42-2204/247
+loop11        7:11   0  91.7M  1 loop /snap/gtk-common-themes/1535
+loop12        7:12   0  12.2M  1 loop /snap/snap-store/1216
+loop13        7:13   0  45.9M  1 loop /snap/snap-store/638
+loop14        7:14   0    74M  1 loop /snap/core22/2411
+loop15        7:15   0  63.8M  1 loop /snap/core20/2866
+loop16        7:16   0  49.3M  1 loop /snap/snapd/26865
+loop17        7:17   0   576K  1 loop /snap/snapd-desktop-integration/343
+loop18        7:18   0    74M  1 loop /snap/core22/2339
+loop19        7:19   0 248.6M  1 loop /snap/firefox/8417
+loop21        7:21   0 606.1M  1 loop /snap/gnome-46-2404/153
+loop22        7:22   0   395M  1 loop /snap/mesa-2404/1165
+sda           8:0    0 931.5G  0 disk 
+└─sda1        8:1    0 931.5G  0 part 
+sdb           8:16   1     0B  0 disk 
+sr0          11:0    1  1024M  0 rom  
+nvme0n1     259:0    0   1.8T  0 disk 
+├─nvme0n1p1 259:1    0   512M  0 part /boot/efi
+└─nvme0n1p2 259:2    0   1.8T  0 part /var/snap/firefox/common/host-hunspell
+                                      /
+
+===== GPU =====
+c1:00.0 VGA compatible controller: NVIDIA Corporation Device 26b1 (rev a1)
+e1:00.0 VGA compatible controller: NVIDIA Corporation Device 26b1 (rev a1)
+Mon Jun 15 14:08:21 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.142                Driver Version: 550.142        CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX 6000 Ada Gene...    On  |   00000000:C1:00.0 Off |                  Off |
+| 30%   43C    P8             21W /  300W |      12MiB /  49140MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA RTX 6000 Ada Gene...    On  |   00000000:E1:00.0 Off |                  Off |
+| 30%   45C    P8             26W /  300W |      29MiB /  49140MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A      3037      G   /usr/lib/xorg/Xorg                              4MiB |
+|    1   N/A  N/A      3037      G   /usr/lib/xorg/Xorg                             10MiB |
+|    1   N/A  N/A      3157      G   /usr/bin/gnome-shell                            8MiB |
++-----------------------------------------------------------------------------------------+
+
+===== Python =====
+/home/user1-system12/miniconda3/envs/cursorstudy/bin/python
+Python 3.11.4
+/home/user1-system12/miniconda3/envs/cursorstudy/bin/python3
+Python 3.11.4
+pip 26.1.1 from /home/user1-system12/miniconda3/envs/cursorstudy/lib/python3.11/site-packages/pip (python 3.11)
+
+===== Conda =====
+/home/user1-system12/miniconda3/condabin/conda
+conda 24.11.1
+
+# conda environments:
+#
+base                   /home/user1-system12/miniconda3
+aidetector             /home/user1-system12/miniconda3/envs/aidetector
+aidetector-gen         /home/user1-system12/miniconda3/envs/aidetector-gen
+aidetector_apillm      /home/user1-system12/miniconda3/envs/aidetector_apillm
+aidev                  /home/user1-system12/miniconda3/envs/aidev
+bigclone               /home/user1-system12/miniconda3/envs/bigclone
+c4rllama               /home/user1-system12/miniconda3/envs/c4rllama
+class_se               /home/user1-system12/miniconda3/envs/class_se
+codellama              /home/user1-system12/miniconda3/envs/codellama
+cursorstudy          * /home/user1-system12/miniconda3/envs/cursorstudy
+detectcodegpt          /home/user1-system12/miniconda3/envs/detectcodegpt
+llm                    /home/user1-system12/miniconda3/envs/llm
+sourcerercc            /home/user1-system12/miniconda3/envs/sourcerercc
+
+Current conda env: cursorstudy
+
+===== R =====
+
+===== Git =====
+git version 2.34.1
+
+===== Java =====
+openjdk version "17.0.19" 2026-04-21
+OpenJDK Runtime Environment (build 17.0.19+10-1-22.04.2-Ubuntu)
+OpenJDK 64-Bit Server VM (build 17.0.19+10-1-22.04.2-Ubuntu, mixed mode, sharing)
+
+===== Docker =====
+Docker version 29.1.3, build 29.1.3-0ubuntu3~22.04.2
+
+===== SonarQube-related env vars =====
+SONAR_HOST=
+SONAR_SCANNER_PATH=
+SONAR_TOKEN=
+
+CondaError: Run 'conda init' before 'conda activate'
+
+===== cursorstudy env =====
+/home/user1-system12/miniconda3/envs/cursorstudy/bin/python
+Python 3.11.4
+aiohttp                  3.9.5
+GitPython                3.1.43
+google-cloud-bigquery    3.25.0
+gql                      3.5.0
+node-semver              0.9.0
+numpy                    1.26.4
+pandas                   2.2.0
+PyGithub                 2.3.0
+requests                 2.31.0
+scikit-learn             1.5.0
+semver                   3.0.2
+

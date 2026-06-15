@@ -452,7 +452,7 @@ create_event_study_plot <- function(settings, colors, legend_title = "Setting",
     # Enforce setting order
     plot_dyn$setting <- factor(plot_dyn$setting, levels = settings, ordered = TRUE)
     plot_dyn$significant <- (plot_dyn$conf.low > 0) | (plot_dyn$conf.high < 0)
-    plot_dyn$significant[is.na(plot_dyn$significant)] <- FALSE
+    plot_dyn$linetype_sig <- ifelse(plot_dyn$significant, "solid", "dotted")
 
     pos <- position_dodge(width = 0.5)
 
@@ -465,19 +465,16 @@ create_event_study_plot <- function(settings, colors, legend_title = "Setting",
 
     # Create plot
     p <- ggplot(plot_dyn, aes(x = time, y = estimate, color = setting, group = setting)) +
-        geom_errorbar(data = subset(plot_dyn, significant),
-                      aes(ymin = conf.low, ymax = conf.high),
-                      position = pos, width = 0.4, linetype = "solid") +
-        geom_errorbar(data = subset(plot_dyn, !significant),
-                      aes(ymin = conf.low, ymax = conf.high),
-                      position = pos, width = 0.4, linetype = "dotted") +
-        geom_point(aes(shape = significant),
+        geom_errorbar(aes(ymin = conf.low, ymax = conf.high, linetype = linetype_sig),
+                      position = pos, width = 0.4) +
+        geom_point(aes(shape = significant, fill = after_scale(ifelse(significant, color, NA))),
                    position = pos, size = 1.5) +
-        scale_shape_manual(values = c("TRUE" = 19, "FALSE" = 1), guide = "none") +
+        scale_shape_manual(values = c("TRUE" = 19, "FALSE" = 21), guide = "none") +
         geom_hline(yintercept = 0, linetype = "dashed") +
         geom_vline(xintercept = -0.5, linetype = "dashed") +
         scale_x_continuous(breaks = -6:6) +
         coord_cartesian(xlim = c(-6.5, 6.5)) +
+        scale_linetype_identity() +
         scale_color_manual(values = setNames(colors, settings), drop = FALSE) +
         labs(
             x = "Months Relative to Cursor Adoption",

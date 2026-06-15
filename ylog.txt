@@ -1,0 +1,50 @@
+Check the result below
+---
+
+(cursorstudy) user1-system12@OISSE-IST173C01:~/project-workspace/cursor_study$ Rscript -e "rmarkdown::render('notebooks/DiffInDiffBorusyak.Rmd')"
+
+
+processing file: DiffInDiffBorusyak.Rmd
+  |........................................   |  93% [compare_agent_cohort_all]
+
+Error in `grid.Call.graphics()`:
+! invalid hex digit in 'color' or 'lty'
+Backtrace:
+     ▆
+  1. ├─base::print(plot_agent_cohort_all)
+  2. ├─ggplot2:::print.ggplot(plot_agent_cohort_all)
+  3. │ ├─grid::grid.draw(gtable)
+  4. │ └─grid:::grid.draw.gTree(gtable)
+  5. │   └─grDevices::recordGraphics(drawGTree(x), list(x = x), getNamespace("grid"))
+  6. ├─grid:::drawGTree(x)
+  7. │ ├─grid::grid.draw(x$children[[i]], recording = FALSE)
+  8. │ └─grid:::grid.draw.gTree(x$children[[i]], recording = FALSE)
+  9. │   └─grDevices::recordGraphics(drawGTree(x), list(x = x), getNamespace("grid"))
+ 10. ├─grid:::drawGTree(x)
+ 11. │ ├─grid::grid.draw(x$children[[i]], recording = FALSE)
+ 12. │ └─grid:::grid.draw.gTree(x$children[[i]], recording = FALSE)
+ 13. │   └─grDevices::recordGraphics(drawGTree(x), list(x = x), getNamespace("grid"))
+ 14. ├─grid:::drawGTree(x)
+ 15. │ ├─grid::grid.draw(x$children[[i]], recording = FALSE)
+ 16. │ └─grid:::grid.draw.grob(x$children[[i]], recording = FALSE)
+ 17. │   └─grDevices::recordGraphics(drawGrob(x), list(x = x), getNamespace("grid"))
+ 18. └─grid:::drawGrob(x)
+ 19.   ├─grid::drawDetails(x, recording = FALSE)
+ 20.   └─grid:::drawDetails.polyline(x, recording = FALSE)
+ 21.     └─grid:::grid.Call.graphics(C_lines, x$x, x$y, index, x$arrow)
+
+Quitting from DiffInDiffBorusyak.Rmd:562-576 [compare_agent_cohort_all]
+
+Execution halted
+(cursorstudy) user1-system12@OISSE-IST173C01:~/project-workspace/cursor_study$ grep geom ./notebooks/DiffInDiffBorusyak.Rmd
+    geom_point(data = subset(plot_data, is_significant),
+    geom_point(data = subset(plot_data, !is_significant),
+    geom_errorbar(data = subset(plot_data, is_significant),
+    geom_errorbar(data = subset(plot_data, !is_significant),
+    geom_hline(yintercept = 0, linetype = "dashed") +
+    geom_vline(xintercept = -0.5, linetype = "dashed") +
+        geom_errorbar(aes(ymin = conf.low, ymax = conf.high, linetype = linetype_sig),
+        geom_point(aes(shape = significant),
+        geom_hline(yintercept = 0, linetype = "dashed") +
+        geom_vline(xintercept = -0.5, linetype = "dashed") +
+(cursorstudy) user1-system12@OISSE-IST173C01:~/project-workspace/cursor_study$
