@@ -1,4 +1,3 @@
-cat > run-phase1.sh <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -41,6 +40,3 @@ Rscript -e "rmarkdown::render('notebooks/DiffInDiffPosterFigures.Rmd')"
 
 echo "Phase 1 reproduction completed."
 date
-EOF
-
-chmod +x run-phase1.sh
